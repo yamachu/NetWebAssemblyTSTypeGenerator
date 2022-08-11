@@ -87,6 +87,10 @@ namespace NetWebAssemblyTSTypeGenerator
             }
             """";
             context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.JSPortOverrideTypeDefinitionOutputDir", out var jsPortOverrideTypeDefinitionOutputDir);
+            if (string.IsNullOrEmpty(jsPortOverrideTypeDefinitionOutputDir))
+            {
+                throw new Exception("`JSPortOverrideTypeDefinitionOutputDir` property must be set, set absolute path.");
+            }
             File.WriteAllText(Path.Combine(jsPortOverrideTypeDefinitionOutputDir, $"dotnet.{asmName}.override.d.ts"), _template_);
         }
 
