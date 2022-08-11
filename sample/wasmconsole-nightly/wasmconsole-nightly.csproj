@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
+    <WasmMainJSPath>main.mjs</WasmMainJSPath>
+    <OutputType>Exe</OutputType>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Required -->
+    <JSPortOverrideTypeDefinitionOutputDir>$(TypeOutputDir)</JSPortOverrideTypeDefinitionOutputDir>
+    <!-- Optional -->
+    <JSPortOverrideTargetProjectInheritRuntimeType>false</JSPortOverrideTargetProjectInheritRuntimeType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <WasmExtraFilesToDeploy Include="app-support.mjs" />
+    <ProjectReference Include="../../src/NetWebAssemblyTSTypeGenerator.csproj"
+                      OutputItemType="Analyzer" />
+
+    <!-- Required -->
+    <CompilerVisibleProperty Include="JSPortOverrideTypeDefinitionOutputDir" />
+    <!-- Optional -->
+    <CompilerVisibleProperty Include="JSPortOverrideTargetProjectInheritRuntimeType" />
+  </ItemGroup>
+</Project>
