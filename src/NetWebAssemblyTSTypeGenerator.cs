@@ -67,8 +67,17 @@ namespace NetWebAssemblyTSTypeGenerator
 
             var jsonString = TypeScriptDefinitionGenerator.GetInstance().Serialize(exportSymbolDict);
 
+            context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.JSPortOverrideTargetProjectInheritRuntimeType", out var jsPortOverrideTargetProjectInheritRuntimeType);
+            bool.TryParse(jsPortOverrideTargetProjectInheritRuntimeType, out var isInheritType);
+            var importStatement = isInheritType
+                ? $"""
+                // NOTICE: If package.json does NOT have "@microsoft/dotnet-runtime" dependency, comment-out below `import` statement.
+                // This behavior could be change by Set `JSPortOverrideTargetProjectInheritRuntimeType` MSBuild Custom Property.
+                import "@microsoft/dotnet-runtime";
+                """ : "";
+
             var _template_ = $$""""
-            import "@microsoft/dotnet-runtime"
+            {{importStatement}}
 
             declare module "@microsoft/dotnet-runtime" {
                 // Use this Type for typing {import("@microsoft/dotnet-runtime").APIType["getAssemblyExports"]}
