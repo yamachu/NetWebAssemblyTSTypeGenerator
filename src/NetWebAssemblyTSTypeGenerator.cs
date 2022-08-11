@@ -71,10 +71,11 @@ namespace NetWebAssemblyTSTypeGenerator
             import "@microsoft/dotnet-runtime"
 
             declare module "@microsoft/dotnet-runtime" {
-                export type ExportHelper = (assemblyName: "{{asmName + ".dll"}}") => Promise<
+                // Use this Type for typing {import("@microsoft/dotnet-runtime").APIType["getAssemblyExports"]}
+                export type ExportsHelper = (assemblyName: "{{asmName + ".dll"}}") => Promise<
                         {{jsonString}}
                 >;
-            };
+            }
             """";
             context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.JSPortOverrideTypeDefinitionOutputDir", out var jsPortOverrideTypeDefinitionOutputDir);
             File.WriteAllText(Path.Combine(jsPortOverrideTypeDefinitionOutputDir, $"dotnet.{asmName}.override.d.ts"), _template_);
