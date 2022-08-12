@@ -27,7 +27,7 @@ namespace NetWebAssemblyTSTypeGenerator
                 }
             }
             var key = string.Join("", splitted.Take(1));
-            var nextKey = string.Join(".", splitted.Skip(1));
+            var nextKey = string.Join(separator.ToString(), splitted.Skip(1));
 
             if (baseDict.TryGetValue(key, out var maybeDictionary))
             {
