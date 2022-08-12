@@ -37,7 +37,6 @@ namespace NetWebAssemblyTSTypeGenerator
                 }
             };
         }
-        
     }
 
     // inspired: https://github.com/joseftw/JOS.STJ.DictionaryStringObjectJsonConverter
