@@ -67,12 +67,12 @@ namespace NetWebAssemblyTSTypeGenerator
 
             var jsonString = TypeScriptDefinitionGenerator.GetInstance().Serialize(exportSymbolDict);
 
-            context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.JSPortOverrideTargetProjectInheritRuntimeType", out var jsPortOverrideTargetProjectInheritRuntimeType);
+            context.AnalyzerConfigOptions.GlobalOptions.TryGetValue(Constants.BuildPropertyJSPortOverrideTargetProjectInheritRuntimeType, out var jsPortOverrideTargetProjectInheritRuntimeType);
             bool.TryParse(jsPortOverrideTargetProjectInheritRuntimeType, out var isInheritType);
             var importStatement = isInheritType
                 ? $"""
                 // NOTICE: If package.json does NOT have "@microsoft/dotnet-runtime" dependency, comment-out below `import` statement.
-                // This behavior could be change by Set `JSPortOverrideTargetProjectInheritRuntimeType` MSBuild Custom Property.
+                // This behavior could be change by Set `{Constants.JSPortOverrideTargetProjectInheritRuntimeType}` MSBuild Custom Property.
                 import "@microsoft/dotnet-runtime";
                 """ : "";
 
@@ -86,10 +86,10 @@ namespace NetWebAssemblyTSTypeGenerator
                 >;
             }
             """";
-            context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.JSPortOverrideTypeDefinitionOutputDir", out var jsPortOverrideTypeDefinitionOutputDir);
+            context.AnalyzerConfigOptions.GlobalOptions.TryGetValue(Constants.BuildPropertyJSPortOverrideTypeDefinitionOutputDir, out var jsPortOverrideTypeDefinitionOutputDir);
             if (string.IsNullOrEmpty(jsPortOverrideTypeDefinitionOutputDir))
             {
-                throw new Exception("`JSPortOverrideTypeDefinitionOutputDir` property must be set, set absolute path.");
+                throw new Exception($"`{Constants.JSPortOverrideTypeDefinitionOutputDir}` property must be set, set absolute path.");
             }
             File.WriteAllText(Path.Combine(jsPortOverrideTypeDefinitionOutputDir, $"dotnet.{asmName}.override.d.ts"), _template_);
         }
