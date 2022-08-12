@@ -6,7 +6,6 @@ namespace NetWebAssemblyTSTypeGenerator
 {
     internal static class Utils
     {
-        // TODO: tests
         internal static Dictionary<string, dynamic> SplitIntoDictionary<T>(Dictionary<string, dynamic> baseDict, (string MaybeKey, T Value) values, char separator = '.')
         {
             var (maybeKey, value) = values;
