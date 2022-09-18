@@ -1,8 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+  <!-- ref: https://github.com/dotnet/roslyn/blob/main/docs/features/source-generators.cookbook.md -->
   <PropertyGroup>
+    <Title>NetWebAssemblyTSTypeGenerator</Title>
+    <Description>NetWebAssemblyTSTypeGenerator is Generator for typing .NET JavaScript interop on WebAssembly.</Description>
+    <Authors>YusukeYamada</Authors>
+    <PackageProjectUrl>https://github.com/yamachu/NetWebAssemblyTSTypeGenerator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yamachu/NetWebAssemblyTSTypeGenerator</RepositoryUrl>
+    <Copyright>Copyright © YusukeYamada 2022</Copyright>
+    <Version>0.0.0.1</Version>
+    <PackageVersion>0.0.0.1</PackageVersion>
+
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild> <!-- Generates a package at build -->
+    <IncludeBuildOutput>false</IncludeBuildOutput> <!-- Do not include the generator as a lib dependency -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +24,11 @@
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Text.Json" Version="6.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Package the generator in the analyzer directory of the nuget package -->
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 
 </Project>
