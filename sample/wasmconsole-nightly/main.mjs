@@ -1,25 +1,28 @@
-import { App } from "./app-support.mjs";
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
 
-/**
- * @typedef { import("@microsoft/dotnet-runtime").ExportsHelper } ExportsHelper
- */
+import { dotnet } from "./dotnet.js";
+import { getTypedAssemblyExports } from "dotnet-webassembly-type-helper";
 
-async function main(applicationArguments) {
-    App.runtime.setModuleImports("main.mjs", {
-        node: {
-            process: {
-                version: () => globalThis.process.version,
-            },
+const is_node =
+    typeof process === "object" && typeof process.versions === "object" && typeof process.versions.node === "string";
+if (!is_node) throw new Error(`This file only supports nodejs`);
+
+const { setModuleImports, getAssemblyExports, getConfig, runMainAndExit } = await dotnet
+    .withDiagnosticTracing(false)
+    .create();
+
+setModuleImports("main.mjs", {
+    node: {
+        process: {
+            version: () => globalThis.process.version,
         },
-    });
+    },
+});
 
-    /** @type {ExportsHelper} */
-    const getAssemblyExports = await App.runtime.getAssemblyExports;
-    const exports = await getAssemblyExports("wasmconsole-nightly.dll");
-    const text = exports.MyClass.Greeting();
-    console.log(text);
+const config = getConfig();
+const exports = await getTypedAssemblyExports(getAssemblyExports(config.mainAssemblyName));
+const text = exports.MyClass.Greeting();
+console.log(text);
 
-    return await App.runtime.runMain("wasmconsole-nightly.dll", applicationArguments);
-}
-
-App.run(main);
+await runMainAndExit(config.mainAssemblyName, ["dotnet", "is", "great!"]);

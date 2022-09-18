@@ -1,0 +1,8 @@
+{
+  "name": "sample",
+  "main": "main.mjs",
+  "type": "module",
+  "dependencies": {
+    "dotnet-webassembly-type-helper": "file:generated"
+  }
+}
