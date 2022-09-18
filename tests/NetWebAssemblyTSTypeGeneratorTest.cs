@@ -74,7 +74,6 @@ namespace MyCode
                 optionsProvider: new CustomAnalyzerConfigOptionsProvider(
                     new CustomAnalyzerConfigOptions(
                         new Dictionary<string, string>{
-                            { Constants.BuildPropertyJSPortOverrideTargetProjectInheritRuntimeType, "false"},
                             { Constants.BuildPropertyJSPortOverrideTypeDefinitionOutputDir, outputDir},
                             { "build_property.AssemblyName", TestAssemblyName }
                         }.ToImmutableDictionary()

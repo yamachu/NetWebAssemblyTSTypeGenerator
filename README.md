@@ -16,8 +16,6 @@ example
 
     <!-- Required -->
     <JSPortOverrideTypeDefinitionOutputDir>__REPLACE_ME_YOUR_PROJECT_TYPES_DIR_</JSPortOverrideTypeDefinitionOutputDir>
-    <!-- Optional -->
-    <JSPortOverrideTargetProjectInheritRuntimeType>true</JSPortOverrideTargetProjectInheritRuntimeType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,8 +25,6 @@ example
 
     <!-- Required -->
     <CompilerVisibleProperty Include="JSPortOverrideTypeDefinitionOutputDir" />
-    <!-- Optional -->
-    <CompilerVisibleProperty Include="JSPortOverrideTargetProjectInheritRuntimeType" />
   </ItemGroup>
 </Project>
 ```
