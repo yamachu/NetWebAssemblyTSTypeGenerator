@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 import { dotnet } from "./dotnet.js";
-import { getTypedAssemblyExports } from "dotnet-webassembly-type-helper";
+import { getTypedAssemblyExports, setTypedModuleImports } from "dotnet-webassembly-type-helper";
 
 const is_node =
     typeof process === "object" && typeof process.versions === "object" && typeof process.versions.node === "string";
@@ -12,7 +12,7 @@ const { setModuleImports, getAssemblyExports, getConfig, runMainAndExit } = awai
     .withDiagnosticTracing(false)
     .create();
 
-setModuleImports("main.mjs", {
+setTypedModuleImports(setModuleImports, "main.mjs", {
     node: {
         process: {
             version: () => globalThis.process.version,
