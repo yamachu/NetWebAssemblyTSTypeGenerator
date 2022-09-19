@@ -7,8 +7,8 @@
     <PackageProjectUrl>https://github.com/yamachu/NetWebAssemblyTSTypeGenerator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/yamachu/NetWebAssemblyTSTypeGenerator</RepositoryUrl>
     <Copyright>Copyright © YusukeYamada 2022</Copyright>
-    <Version>0.0.0.1</Version>
-    <PackageVersion>0.0.0.1</PackageVersion>
+    <Version>0.0.0.2</Version>
+    <PackageVersion>0.0.0.2</PackageVersion>
 
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
