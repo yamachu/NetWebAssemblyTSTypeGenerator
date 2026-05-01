@@ -160,6 +160,9 @@ export const setTypedModuleImports = (originalSetModuleImports, moduleName, modu
                 case NamespaceDeclarationSyntax namespaceDecl:
                     next.Add(namespaceDecl.Name.ToString());
                     break;
+                case FileScopedNamespaceDeclarationSyntax fileScopedNamespaceDecl:
+                    next.Add(fileScopedNamespaceDecl.Name.ToString());
+                    break;
                 default:
                     break;
             }
