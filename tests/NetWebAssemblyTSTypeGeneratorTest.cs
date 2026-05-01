@@ -123,6 +123,50 @@ namespace MyCode
 }", outputFileContent);
         }
 
+        [Fact]
+        public void CreateMissingOutputDirectoryTest()
+        {
+            var outputDir = Path.Combine(GetTempDirectory(), "generated");
+            _emitTempDir.Add(outputDir);
+
+            var input = CreateCompilation(@"
+using System;
+using System.Runtime.InteropServices.JavaScript;
+
+return 0;
+
+namespace MyCode
+{
+    public partial class MyClass
+    {
+        [JSExport]
+        internal static string Hello()
+        {
+            return ""Hello"";
+        }
+    }
+}
+");
+
+            GeneratorDriver driver = CSharpGeneratorDriver.Create(
+                new[] { new NetWebAssemblyTSTypeGenerator() },
+                optionsProvider: new CustomAnalyzerConfigOptionsProvider(
+                    new CustomAnalyzerConfigOptions(
+                        new Dictionary<string, string>{
+                            { Constants.BuildPropertyJSPortOverrideTypeDefinitionOutputDir, outputDir},
+                            { "build_property.AssemblyName", TestAssemblyName }
+                        }.ToImmutableDictionary()
+                    )
+                )
+            );
+
+            driver.RunGeneratorsAndUpdateCompilation(input, out var _ /* outputCompilation */, out var diagnostics);
+
+            Assert.True(diagnostics.IsEmpty, string.Join(',', diagnostics.Select(v => v.GetMessage())));
+            Assert.True(Directory.Exists(outputDir));
+            Assert.True(File.Exists(Path.Combine(outputDir, "index.d.ts")));
+        }
+
         // FIXME: TargetArchitecture, TargetOS, RuntimeIdentifier...how to use wasm-tools???
         private static Compilation CreateCompilation(string source)
             => CSharpCompilation.Create("compilation",
