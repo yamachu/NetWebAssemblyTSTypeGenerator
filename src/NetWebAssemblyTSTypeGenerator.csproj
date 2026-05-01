@@ -11,19 +11,16 @@
     <PackageVersion>0.0.0.2</PackageVersion>
 
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>11</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild> <!-- Generates a package at build -->
     <IncludeBuildOutput>false</IncludeBuildOutput> <!-- Do not include the generator as a lib dependency -->
+    <NoWarn>RS1036;RS1042</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.Text.Json" Version="6.0.5" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" PrivateAssets="all" />
+    <PackageReference Include="System.Text.Json" Version="8.0.6" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
