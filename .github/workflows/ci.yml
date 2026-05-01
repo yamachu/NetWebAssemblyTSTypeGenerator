@@ -37,6 +37,9 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
+      - name: Install wasm-tools workload
+        run: dotnet workload install wasm-tools
+
       - name: Build sample project and generate type definitions
         working-directory: sample/wasmconsole-nightly
         run: make test
