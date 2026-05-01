@@ -11,7 +11,7 @@
     <PackageVersion>0.0.0.2</PackageVersion>
 
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>11</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild> <!-- Generates a package at build -->
     <IncludeBuildOutput>false</IncludeBuildOutput> <!-- Do not include the generator as a lib dependency -->
     <NoWarn>RS1036;RS1042</NoWarn>
