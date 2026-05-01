@@ -3,18 +3,17 @@ name: CI
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
+  pull_request
 
 jobs:
   test:
     name: dotnet test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
         with:
           dotnet-version: "10.0.x"
 
@@ -31,22 +30,13 @@ jobs:
     name: Smoke test (sample index.d.ts generation)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
         with:
           dotnet-version: "10.0.x"
 
       - name: Build sample project and generate type definitions
         working-directory: sample/wasmconsole-nightly
-        run: dotnet build /p:TypeOutputDir=${{ github.workspace }}/sample/wasmconsole-nightly/generated
-
-      - name: Verify index.d.ts was generated
-        run: |
-          if [ ! -f "${{ github.workspace }}/sample/wasmconsole-nightly/generated/index.d.ts" ]; then
-            echo "index.d.ts was not generated"
-            exit 1
-          fi
-          echo "index.d.ts generated successfully:"
-          cat "${{ github.workspace }}/sample/wasmconsole-nightly/generated/index.d.ts"
+        run: make test
