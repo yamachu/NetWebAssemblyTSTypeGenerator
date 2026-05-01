@@ -129,6 +129,8 @@ export const setTypedModuleImports: <T extends ImportModuleNames>(
                 throw new Exception($"`{Constants.JSPortOverrideTypeDefinitionOutputDir}` property must be set, set absolute path.");
             }
 
+            Directory.CreateDirectory(jsPortOverrideTypeDefinitionOutputDir);
+
             File.WriteAllText(Path.Combine(jsPortOverrideTypeDefinitionOutputDir, $"index.d.ts"), _template_);
             File.WriteAllText(Path.Combine(jsPortOverrideTypeDefinitionOutputDir, $"index.js"),
                 $@"export const getTypedAssemblyExports = (originalGetAssemblyExports) => originalGetAssemblyExports;
