@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    name: dotnet test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+  smoke-test:
+    name: Smoke test (sample index.d.ts generation)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Build sample project and generate type definitions
+        working-directory: sample/wasmconsole-nightly
+        run: dotnet build /p:TypeOutputDir=${{ github.workspace }}/sample/wasmconsole-nightly/generated
+
+      - name: Verify index.d.ts was generated
+        run: |
+          if [ ! -f "${{ github.workspace }}/sample/wasmconsole-nightly/generated/index.d.ts" ]; then
+            echo "index.d.ts was not generated"
+            exit 1
+          fi
+          echo "index.d.ts generated successfully:"
+          cat "${{ github.workspace }}/sample/wasmconsole-nightly/generated/index.d.ts"
