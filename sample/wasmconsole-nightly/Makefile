@@ -4,6 +4,9 @@ build:
 	$(DOTNET) clean
 	$(DOTNET) build /p:TypeOutputDir=$(shell pwd)/generated
 
+publish:
+	$(DOTNET) build /p:TypeOutputDir=$(shell pwd)/generated
+
 test:
 	rm -rf generated
 	$(MAKE) build
