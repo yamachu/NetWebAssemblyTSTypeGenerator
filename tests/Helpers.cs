@@ -22,7 +22,7 @@ namespace NetWebAssemblyTSTypeGenerator.Tests
                 return true;
             }
 
-            value = string.Empty;
+            value = null!;
             return false;
         }
     }
