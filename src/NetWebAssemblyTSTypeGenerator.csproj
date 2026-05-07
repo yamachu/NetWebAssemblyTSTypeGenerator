@@ -9,8 +9,7 @@
     <Copyright>Copyright © YusukeYamada 2022</Copyright>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.0.1.0</Version>
-    <PackageVersion>0.0.1.0</PackageVersion>
+    <PackageVersion>$(Version)</PackageVersion>
 
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>11</LangVersion>
