@@ -1,38 +1,22 @@
 name: Release packages
 on:
-  push:
-    tags:
-      - "[0-9]+.[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "pattern: [0-9]+.[0-9]+.[0-9]+.[0-9]+"
+        required: true
+      dry-run:
+        description: "dry-run: build and pack only, skip publish and release creation"
+        required: true
+        default: false
+        type: boolean
 
 permissions:
   contents: write
   id-token: write  # enable GitHub OIDC token issuance for this job
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Validate release version
-        id: validate
-        run: |
-          VERSION="${{ github.ref_name }}"
-          cd src; PACKAGE_VERSION=$(dotnet msbuild -getProperty:PackageVersion)
-          if [ "$VERSION" != "$PACKAGE_VERSION" ]; then
-              echo "❌ タグ名 $VERSION とプロジェクトの PackageVersion $PACKAGE_VERSION が一致しません"
-              exit 1
-          fi
-      - name: Delete tag on validation failure
-        if: failure()
-        run: |
-          VERSION="${{ github.ref_name }}"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git push --delete origin "$VERSION"
-          echo "❌ バージョン検証に失敗したため、タグ $VERSION を削除しました"
-
   publish:
-    needs: validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -45,11 +29,12 @@ jobs:
         id: login
         with:
           user: ${{ secrets.NUGET_USER }}
-      - run: mkdir -p ./artifacts
       - run: |
-          dotnet build -c Release
-          dotnet pack -o ./artifacts
-      - run: dotnet nuget push ./artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{steps.login.outputs.NUGET_API_KEY}} --skip-duplicate
-      - run: gh release create ${{github.ref_name}} --generate-notes ./artifacts/*.nupkg
+          dotnet build -c Release -p:Version=${{ inputs.tag }}
+          dotnet pack -o ./artifacts --no-build -p:Version=${{ inputs.tag }}
+      - if: ${{ !inputs.dry-run }}
+        run: dotnet nuget push ./artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{steps.login.outputs.NUGET_API_KEY}} --skip-duplicate
+      - if: ${{ !inputs.dry-run }}
+        run: gh release create ${{inputs.tag}} --generate-notes ./artifacts/*.nupkg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
