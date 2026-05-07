@@ -1,4 +1,5 @@
 name: Release packages
+run-name: "Release ${{ inputs.tag }} (dry-run: ${{ inputs.dry-run }})"
 on:
   workflow_dispatch:
     inputs:
