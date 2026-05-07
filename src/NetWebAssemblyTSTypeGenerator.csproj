@@ -7,6 +7,8 @@
     <PackageProjectUrl>https://github.com/yamachu/NetWebAssemblyTSTypeGenerator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/yamachu/NetWebAssemblyTSTypeGenerator</RepositoryUrl>
     <Copyright>Copyright © YusukeYamada 2022</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Version>0.0.1.0</Version>
     <PackageVersion>0.0.1.0</PackageVersion>
 
@@ -26,6 +28,9 @@
   <ItemGroup>
     <!-- Package the generator in the analyzer directory of the nuget package -->
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="../README.md" Pack="true" PackagePath="\" />
+    <None Include="../LICENSE" Pack="true" PackagePath="\" />
+    <None Include="_._" Pack="true" PackagePath="lib/netstandard2.0/" Visible="false" />
   </ItemGroup>
 
 </Project>
