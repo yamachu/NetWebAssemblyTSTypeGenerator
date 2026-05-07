@@ -14,7 +14,17 @@ namespace NetWebAssemblyTSTypeGenerator.Tests
         }
 
         // FIXME: Cannot use NotNullWhenAttribute...
-        public override bool TryGetValue(string key, out string? value) => _dictImpl.TryGetValue(key, out value);
+        public override bool TryGetValue(string key, out string value)
+        {
+            if (_dictImpl.TryGetValue(key, out var actualValue) && actualValue is not null)
+            {
+                value = actualValue;
+                return true;
+            }
+
+            value = null!;
+            return false;
+        }
     }
 
     internal class CustomAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
